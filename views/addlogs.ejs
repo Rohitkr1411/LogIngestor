@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/home.css">
+    <title>Log Ingestor</title>
+    <style>
+        .addform {
+            margin: 50px;
+            display:block;
+            justify-content: center;
+            text-align: center;
+            background-color: aliceblue;
+            /* Distribute space evenly between child divs */
+            /* flex-wrap: wrap; */
+            margin: 0px 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <div class="homepage">
+            <div class="addform">
+                <div>
+                    <h1>Add Data to Server</h1>
+                </div>
+                <div>
+                    <form id="myForm">
+                        <label for="dataInput">Logs data:</label>
+                        <br>
+                        <!-- <input type="area" id="dataInput" name="dataInput" required> -->
+                        <textarea id="dataInput" name="dataInput" rows="20"  cols="100" style="border-radius: 2%; padding: 10px;"></textarea>
+                        <br>
+
+                        <button type="button" onclick="submitForm()">Submit</button>
+                    </form>
+        
+    
+                </div>
+            </div>
+
+
+
+        </div>
+    
+        <script>
+            function submitForm() {
+              // Get form data
+              const inputData = document.getElementById('dataInput').value;
+              
+              const logData  = JSON.parse(inputData);
+              console.log(logData);
+        
+              // Send data to the server using fetch or XMLHttpRequest
+              fetch('/addLogs', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(logData)
+              }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+              .then(data => {
+                // Handle the response from the server
+                alert(data.message);
+
+                window.location.href = '/logs'; 
+              })
+              .catch(error => {
+                alert("Some Error Occured!!");
+                window.location.href = '/logs'; 
+                console.error('Error:', error);
+              });
+            }
+          </script>
+</body>
+
+</html>

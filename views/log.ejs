@@ -1,0 +1,187 @@
+<!-- logs.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Ingestor</title>
+    <style>
+        .logdata {
+            margin: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #db9999;
+        }
+
+        .filter-form {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            /* Distribute space evenly between child divs */
+            /* flex-wrap: wrap; */
+            margin: 0px 50px;
+        }
+
+        .filter-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .filter-form input {
+            width: 150px;
+            /* Adjust the width as needed */
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .filter-form button {
+            padding: 5px 10px;
+            margin: 10px;
+            font-size: 25px;
+            background-color: #ddd;
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <%- include('partials/header') %>
+    <div class="logdata">
+        <h1>Log Data</h1>
+
+        <% if (logs.length> 0) { %>
+
+            <form class="filter-form" action="/logs" method="GET">
+                <div>
+                    <div>
+                        <label for="level">Level:</label>
+                        <input type="text" name="level" id="level" value="<%= filter?.level %>">
+                    </div>
+                    <div>
+                        <label for="message">Message:</label>
+                        <input type="text" name="message" id="message" value="<%= filter?.message %>">
+
+                    </div>
+
+                </div>
+
+                <div>
+                    <div>
+                        <label for="resourceId">Resource ID:</label>
+                        <input type="text" name="resourceId" id="resourceId" value="<%= filter?.resourceId %>">
+                    </div>
+                    <div>
+                        <label for="parentResourceId">Parent Resource ID:</label>
+                        <input type="text" name="parentResourceId" id="parentResourceId">
+                    </div>
+
+                </div>
+                <div>
+                    <div>
+                        <label for="startDate">Start Date:</label>
+                        <input type="datetime-local" name="startDate" id="startDate">
+                    </div>
+
+                    <div>
+                        <label for="endDate">End Date:</label>
+                        <input type="datetime-local" name="endDate" id="endDate">
+                    </div>
+
+                </div>
+                <div>
+                    <div>
+                        <label for="traceId">Trace ID:</label>
+                        <input type="text" name="traceId" id="traceId">
+                    </div>
+                    <div>
+                        <label for="spanId">Span ID:</label>
+                        <input type="text" name="spanId" id="spanId">
+                    </div>
+
+                </div>
+
+                <div>
+                    <div>
+                        <label for="commit">Commit:</label>
+                        <input type="text" name="commit" id="commit">
+
+                    </div>
+
+                    <button type="submit">Filter Logs</button>
+
+                </div>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Level</th>
+                        <th>Message</th>
+                        <th>Resource ID</th>
+                        <th>Timestamp</th>
+                        <th>Trace ID</th>
+                        <th>Span ID</th>
+                        <th>Commit</th>
+                        <th>Parent Resource ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% logs.forEach(log=> { %>
+                        <tr>
+                            <td>
+                                <%= log.level %>
+                            </td>
+                            <td>
+                                <%= log.message %>
+                            </td>
+                            <td>
+                                <%= log.resourceId %>
+                            </td>
+                            <td>
+                                <%= log.timestamp %>
+                            </td>
+                            <td>
+                                <%= log.traceId %>
+                            </td>
+                            <td>
+                                <%= log.spanId %>
+                            </td>
+                            <td>
+                                <%= log.commit %>
+                            </td>
+                            <td>
+                                <%= log.metadata.parentResourceId %>
+                            </td>
+                        </tr>
+                        <% }); %>
+                </tbody>
+            </table>
+            <% } else { %>
+                <p>No logs available.</p>
+                <% } %>
+
+    </div>
+
+
+</body>
+
+</html>
