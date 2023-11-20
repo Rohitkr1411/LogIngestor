@@ -9,6 +9,9 @@ How to Run the code locally:<br/>
 The application is running on PORT:300, To start The application Use:<br/>
 ``` nodemon index.js ```
 
+### Step 3
+The application will be running on http://localhost:3000/
+
 ## FrontEnd:
 ![image](https://github.com/Rohitkr1411/LogIngestor/assets/66077868/12d0171d-f8e8-494f-a9cc-bb44cb91f4ed)
 
